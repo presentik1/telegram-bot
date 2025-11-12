@@ -2,9 +2,11 @@ import asyncio
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import logging
+from aiohttp import web
+import os
 
-# 🔑 Твой токен
-TOKEN = "8444453713:AAHI14Mrbo7g6Bu2mlaF4JTDym_RB3rfN0s"
+# 🔑 Берём токен из переменной окружения (Render Environment Variable)
+TOKEN = os.getenv("TOKEN", "8444453713:AAHI14Mrbo7g6Bu2mlaF4JTDym_RB3rfN0s")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -26,9 +28,22 @@ async def send_info_buttons(message: types.Message):
 
     await message.reply("👇 Выберите нужный раздел:", reply_markup=keyboard)
 
+async def handle(request):
+    return web.Response(text="Bot is running!")
+
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get("/", handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", 10000)  # Render увидит этот порт
+    await site.start()
 
 async def main():
-    await dp.start_polling(bot)
+    await asyncio.gather(
+        dp.start_polling(bot),
+        start_web_server()  # веб-сервер для Render
+    )
 
 if __name__ == "__main__":
     asyncio.run(main())
