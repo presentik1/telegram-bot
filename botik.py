@@ -39,7 +39,6 @@ async def show_faq_menu(callback: types.CallbackQuery):
         [InlineKeyboardButton(text="❓ Вопрос-ответ", url="https://telegra.ph/CHasto-zadavaemye-voprosy-11-14-6")],
         [InlineKeyboardButton(text="📏 Как определить размер", url="https://t.me/parikpro_34_help1")],
         [InlineKeyboardButton(text="✨ Блеск у париков", url="https://t.me/parikpro_34_help")],
-        [InlineKeyboardButton(text="🔄 Как накрутить волосы", url="https://t.me/parikpro_34_help2")],
         [InlineKeyboardButton(text="⬅️ Назад", callback_data="back_to_main")]
     ])
 
